@@ -65,7 +65,7 @@ func (h *handlerV1) Register(c *gin.Context) {
 		return
 	}
 
-	err = h.inMemory.Set("user_"+user.Email, string(userData), 10*time.Minute)
+	err = h.inMemory.Set("user_"+user.Email, string(userData), 10*time.Second)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -89,7 +89,7 @@ func (h *handlerV1) sendVerificationCode(key, email string) error {
 		return err
 	}
 
-	err = h.inMemory.Set(key+email, code, time.Minute)
+	err = h.inMemory.Set(key+email, code, time.Second)
 	if err != nil {
 		return err
 	}

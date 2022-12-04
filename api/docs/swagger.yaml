@@ -646,6 +646,33 @@ paths:
       summary: Update a booking
       tags:
       - booking
+  /file-upload:
+    post:
+      consumes:
+      - application/json
+      description: File upload
+      parameters:
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.ResponseOK'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: File upload
+      tags:
+      - file-upload
   /hotel/{id}:
     delete:
       consumes:

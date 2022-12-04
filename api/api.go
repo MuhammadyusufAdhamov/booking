@@ -13,8 +13,9 @@ import (
 )
 
 type RouterOptions struct {
-	Cfg     *config.Config
-	Storage storage.StorageI
+	Cfg      *config.Config
+	Storage  storage.StorageI
+	InMemory storage.InMemoryStorageI
 }
 
 // @title           Swagger for blog api
@@ -30,8 +31,9 @@ func New(opt *RouterOptions) *gin.Engine {
 	router := gin.Default()
 
 	handlerV1 := v1.New(&v1.HandlerV1Options{
-		Cfg:     opt.Cfg,
-		Storage: opt.Storage,
+		Cfg:      opt.Cfg,
+		Storage:  opt.Storage,
+		InMemory: opt.InMemory,
 	})
 
 	router.Static("/media", "./media")
@@ -74,6 +76,8 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1.POST("/auth/forgot-password", handlerV1.ForgotPassword)
 	apiV1.POST("/auth/verify-forgot-password", handlerV1.VerifyForgotPassword)
 	apiV1.POST("/auth/update-password", handlerV1.AuthMiddleware, handlerV1.UpdatePassword)
+
+	apiV1.POST("/file-upload", handlerV1.UploadFile)
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

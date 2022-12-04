@@ -27,7 +27,7 @@ type handlerV1 struct {
 type HandlerV1Options struct {
 	Cfg      *config.Config
 	Storage  storage.StorageI
-	inMemory storage.InMemoryStorageI
+	InMemory storage.InMemoryStorageI
 }
 
 //goland:noinspection GoExportedFuncWithUnexportedType
@@ -35,7 +35,7 @@ func New(options *HandlerV1Options) *handlerV1 {
 	return &handlerV1{
 		cfg:      options.Cfg,
 		storage:  options.Storage,
-		inMemory: options.inMemory,
+		inMemory: options.InMemory,
 	}
 }
 
