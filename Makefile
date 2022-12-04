@@ -1,0 +1,36 @@
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=7
+POSTGRES_DATABASE=booking
+
+-include .env
+  
+DB_URL="postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DATABASE)?sslmode=disable"
+
+
+print:
+	echo "$(DB_URL)"
+	
+swag-init:
+	swag init -g api/api.go -o api/docs
+
+start:
+	go run cmd/main.go
+
+migrateup:
+	migrate -path migrations -database "$(DB_URL)" -verbose up
+
+migrateup1:
+	migrate -path migrations -database "$(DB_URL)" -verbose up 1
+
+migratedown:
+	migrate -path migrations -database "$(DB_URL)" -verbose down
+
+migratedown1:
+	migrate -path migrations -database "$(DB_URL)" -verbose down 1
+
+local-up:
+	docker compose --env-file ./.env.docker up -d
+
+.PHONY: start migrateup migratedown
