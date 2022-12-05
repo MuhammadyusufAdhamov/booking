@@ -8,7 +8,6 @@ import (
 
 type StorageI interface {
 	User() repo.UserStorageI
-	Owner() repo.OwnerStorageI
 	Hotel() repo.HotelStorageI
 	Room() repo.RoomsStorageI
 	Booking() repo.BookingsStorageI
@@ -16,7 +15,6 @@ type StorageI interface {
 
 type storagePg struct {
 	userRepo    repo.UserStorageI
-	ownerRepo   repo.OwnerStorageI
 	hotelRepo   repo.HotelStorageI
 	roomRepo    repo.RoomsStorageI
 	bookingRepo repo.BookingsStorageI
@@ -25,7 +23,6 @@ type storagePg struct {
 func NewStoragePg(db *sqlx.DB) StorageI {
 	return &storagePg{
 		userRepo:    postgres.NewUser(db),
-		ownerRepo:   postgres.NewOwner(db),
 		hotelRepo:   postgres.NewHotel(db),
 		roomRepo:    postgres.NewRoom(db),
 		bookingRepo: postgres.NewBooking(db),
@@ -34,10 +31,6 @@ func NewStoragePg(db *sqlx.DB) StorageI {
 
 func (s *storagePg) User() repo.UserStorageI {
 	return s.userRepo
-}
-
-func (s *storagePg) Owner() repo.OwnerStorageI {
-	return s.ownerRepo
 }
 
 func (s *storagePg) Hotel() repo.HotelStorageI {

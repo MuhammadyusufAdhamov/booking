@@ -22,10 +22,11 @@ func (ur *bookingRepo) Create(booking *repo.Booking) (*repo.Booking, error) {
 		INSERT INTO bookings(
 			 room_id,
 			 user_id,
-			 stay,
-			 number_of_users,
-			 stay_date
-		) VALUES($1, $2, $3, $4, $5)
+		     hotel_id,
+		     from_date,
+		     to_date,
+		     price
+		) VALUES($1, $2, $3, $4, $5, $6)
 		RETURNING id, created_at
 	`
 
@@ -33,11 +34,11 @@ func (ur *bookingRepo) Create(booking *repo.Booking) (*repo.Booking, error) {
 		query,
 		booking.RoomId,
 		booking.UserId,
-		booking.Stay,
-		booking.NumberOfUsers,
-		booking.StayDate,
+		booking.HotelId,
+		booking.FromDate,
+		booking.ToDate,
+		booking.Price,
 	)
-
 	err := row.Scan(&booking.ID, &booking.CreatedAt)
 	if err != nil {
 		return nil, err
@@ -54,9 +55,10 @@ func (ur *bookingRepo) Get(id int64) (*repo.Booking, error) {
 			id,
 			room_id,
 			user_id,
-			stay,
-			number_of_users,
-			stay_date,
+			hotel_id,
+			from_date,
+			to_date,
+			price,
 			created_at
 		FROM bookings
 		WHERE id=$1
@@ -67,9 +69,10 @@ func (ur *bookingRepo) Get(id int64) (*repo.Booking, error) {
 		&result.ID,
 		&result.RoomId,
 		&result.UserId,
-		&result.Stay,
-		&result.NumberOfUsers,
-		&result.StayDate,
+		&result.HotelId,
+		&result.FromDate,
+		&result.ToDate,
+		&result.Price,
 		&result.CreatedAt,
 	)
 	if err != nil {
@@ -102,9 +105,10 @@ func (ur *bookingRepo) GetAll(params *repo.GetAllBookingsParams) (*repo.GetAllBo
 			id,
 			room_id,
 			user_id,
-			stay,
-			number_of_users,
-			stay_date,
+			hotel_id,
+			from_date,
+			to_date,
+			price,
 			created_at
 		FROM bookings
 		` + filter + `
@@ -125,9 +129,10 @@ func (ur *bookingRepo) GetAll(params *repo.GetAllBookingsParams) (*repo.GetAllBo
 			&u.ID,
 			&u.RoomId,
 			&u.UserId,
-			&u.Stay,
-			&u.NumberOfUsers,
-			&u.StayDate,
+			&u.HotelId,
+			&u.FromDate,
+			&u.ToDate,
+			&u.Price,
 			&u.CreatedAt,
 		)
 		if err != nil {
@@ -150,10 +155,11 @@ func (ur *bookingRepo) Update(booking *repo.Booking) (*repo.Booking, error) {
 	query := `update bookings set 
 			room_id=$1,
 			user_id=$2,
-			stay=$3,
-			number_of_users=$4,
-			stay_date=$5
-		where id=$6
+			hotel_id=$3,
+			from_date=$4,
+			to_date=$5,
+			price=$6
+		where id=$7
 		returning created_at
 		`
 
@@ -161,9 +167,10 @@ func (ur *bookingRepo) Update(booking *repo.Booking) (*repo.Booking, error) {
 		query,
 		booking.RoomId,
 		booking.UserId,
-		booking.Stay,
-		booking.NumberOfUsers,
-		booking.StayDate,
+		booking.HotelId,
+		booking.FromDate,
+		booking.ToDate,
+		booking.Price,
 		booking.ID,
 	).Scan(&booking.CreatedAt)
 	if err != nil {

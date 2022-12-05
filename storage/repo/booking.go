@@ -3,13 +3,14 @@ package repo
 import "time"
 
 type Booking struct {
-	ID            int64
-	RoomId        int
-	UserId        int
-	Stay          string
-	NumberOfUsers int
-	StayDate      time.Time
-	CreatedAt     time.Time
+	ID        int64
+	RoomId    int
+	UserId    int
+	HotelId   int
+	FromDate  string
+	ToDate    string
+	Price     float64
+	CreatedAt time.Time
 }
 
 type GetAllBookingsParams struct {

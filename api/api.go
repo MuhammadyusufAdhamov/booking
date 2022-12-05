@@ -46,12 +46,6 @@ func New(opt *RouterOptions) *gin.Engine {
 	apiV1.PUT("/users/:id", handlerV1.UpdateUser)
 	apiV1.DELETE("/users/:id", handlerV1.DeleteUser)
 
-	apiV1.GET("/owners/:id", handlerV1.GetOwner)
-	apiV1.POST("/owners", handlerV1.CreateOwner)
-	apiV1.GET("/owners", handlerV1.GetAllOwners)
-	apiV1.PUT("/owners/:id", handlerV1.UpdateOwner)
-	apiV1.DELETE("/owners/:id", handlerV1.DeleteOwner)
-
 	apiV1.GET("/hotels/:id", handlerV1.GetHotel)
 	apiV1.POST("/hotels", handlerV1.CreateHotel)
 	apiV1.GET("/hotels", handlerV1.GetAllHotels)

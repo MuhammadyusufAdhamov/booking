@@ -26,8 +26,9 @@ func (ur *userRepo) Create(user *repo.User) (*repo.User, error) {
 			email,
 			phone_number,
 			username,
-			password
-		) VALUES($1, $2, $3, $4, $5, $6)
+			password,
+		    type
+		) VALUES($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id, created_at
 	`
 
@@ -39,6 +40,7 @@ func (ur *userRepo) Create(user *repo.User) (*repo.User, error) {
 		user.PhoneNumber,
 		user.Username,
 		user.Password,
+		user.Type,
 	)
 
 	err := row.Scan(&user.ID, &user.CreatedAt)
@@ -61,6 +63,7 @@ func (ur *userRepo) Get(id int64) (*repo.User, error) {
 			phone_number,
 			username,
 			password,
+			type,
 			created_at
 		FROM users
 		WHERE id=$1
@@ -75,6 +78,7 @@ func (ur *userRepo) Get(id int64) (*repo.User, error) {
 		&result.PhoneNumber,
 		&result.Username,
 		&result.Password,
+		&result.Type,
 		&result.CreatedAt,
 	)
 	if err != nil {
@@ -112,6 +116,7 @@ func (ur *userRepo) GetAll(params *repo.GetAllUsersParams) (*repo.GetAllUsersRes
 			phone_number,
 			username,
 			password,
+			type,
 			created_at
 		FROM users
 		` + filter + `
@@ -136,6 +141,7 @@ func (ur *userRepo) GetAll(params *repo.GetAllUsersParams) (*repo.GetAllUsersRes
 			&u.PhoneNumber,
 			&u.Username,
 			&u.Password,
+			&u.Type,
 			&u.CreatedAt,
 		)
 		if err != nil {
@@ -161,8 +167,9 @@ func (ur *userRepo) Update(user *repo.User) (*repo.User, error) {
 			email=$3,
 			phone_number=$4,
 			username=$5,
-			password=$6
-		where id=$7
+			password=$6,
+			type=$7
+		where id=$8
 		returning created_at
 		`
 
@@ -174,6 +181,7 @@ func (ur *userRepo) Update(user *repo.User) (*repo.User, error) {
 		user.PhoneNumber,
 		user.Username,
 		user.Password,
+		user.Type,
 		user.ID,
 	).Scan(&user.CreatedAt)
 	if err != nil {
@@ -215,6 +223,7 @@ func (ur *userRepo) GetByEmail(email string) (*repo.User, error) {
 			phone_number,
 			username,
 			password,
+			type,
 			created_at
 		FROM users
 		WHERE email=$1
@@ -229,6 +238,7 @@ func (ur *userRepo) GetByEmail(email string) (*repo.User, error) {
 		&result.PhoneNumber,
 		&result.Username,
 		&result.Password,
+		&result.Type,
 		&result.CreatedAt,
 	)
 	if err != nil {

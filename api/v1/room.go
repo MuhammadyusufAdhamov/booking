@@ -33,9 +33,7 @@ func (h *handlerV1) CreateRoom(c *gin.Context) {
 	resp, err := h.storage.Room().Create(&repo.Room{
 		Type:         req.Type,
 		NumberOfRoom: req.NumberOfRoom,
-		Sleeps:       req.Sleeps,
 		RoomImageUrl: req.RoomImageUrl,
-		Price:        req.Price,
 		Status:       req.Status,
 		HotelId:      req.HotelId,
 	})
@@ -120,9 +118,7 @@ func parseRoomModel(room *repo.Room) models.Room {
 		ID:           room.ID,
 		Type:         room.Type,
 		NumberOfRoom: room.NumberOfRoom,
-		Sleeps:       room.Sleeps,
 		RoomImageUrl: room.RoomImageUrl,
-		Price:        room.Price,
 		Status:       room.Status,
 		HotelId:      room.HotelId,
 		CreatedAt:    room.CreatedAt,
@@ -161,9 +157,7 @@ func (h *handlerV1) UpdateRoom(c *gin.Context) {
 		ID:           int64(id),
 		Type:         req.Type,
 		NumberOfRoom: req.NumberOfRoom,
-		Sleeps:       req.Sleeps,
 		RoomImageUrl: req.RoomImageUrl,
-		Price:        req.Price,
 		Status:       req.Status,
 		HotelId:      req.HotelId,
 	})
@@ -180,9 +174,7 @@ func (h *handlerV1) UpdateRoom(c *gin.Context) {
 		ID:           resp.ID,
 		Type:         resp.Type,
 		NumberOfRoom: resp.NumberOfRoom,
-		Sleeps:       resp.Sleeps,
 		RoomImageUrl: resp.RoomImageUrl,
-		Price:        resp.Price,
 		Status:       resp.Status,
 		HotelId:      resp.HotelId,
 	})

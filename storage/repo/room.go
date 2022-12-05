@@ -6,9 +6,7 @@ type Room struct {
 	ID           int64
 	Type         string
 	NumberOfRoom int
-	Sleeps       string
 	RoomImageUrl *string
-	Price        float64
 	Status       string
 	HotelId      int
 	CreatedAt    time.Time

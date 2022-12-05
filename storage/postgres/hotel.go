@@ -21,21 +21,19 @@ func NewHotel(db *sqlx.DB) repo.HotelStorageI {
 func (ur *hotelRepo) Create(hotel *repo.Hotel) (*repo.Hotel, error) {
 	query := `
 		INSERT INTO hotels(
-			owner_id,
+			user_id,
 			hotel_name,
-			hotel_rating,
 			hotel_location,
 			hotel_image_url,
 			number_of_rooms
-		) VALUES($1, $2, $3, $4, $5, $6)
+		) VALUES($1, $2, $3, $4, $5)
 		RETURNING id, created_at
 	`
 
 	row := ur.db.QueryRow(
 		query,
-		hotel.OwnerID,
+		hotel.UserID,
 		hotel.HotelName,
-		hotel.HotelRating,
 		hotel.HotelLocation,
 		hotel.HotelImageUrl,
 		hotel.NumberOfRooms,
@@ -55,9 +53,8 @@ func (ur *hotelRepo) Get(id int64) (*repo.Hotel, error) {
 	query := `
 		SELECT
 			id,
-			owner_id,
+			user_id,
 			hotel_name,
-			hotel_rating,
 			hotel_location,
 			hotel_image_url,
 			number_of_rooms,
@@ -69,9 +66,8 @@ func (ur *hotelRepo) Get(id int64) (*repo.Hotel, error) {
 	row := ur.db.QueryRow(query, id)
 	err := row.Scan(
 		&result.ID,
-		&result.OwnerID,
+		&result.UserID,
 		&result.HotelName,
-		&result.HotelRating,
 		&result.HotelLocation,
 		&result.HotelImageUrl,
 		&result.NumberOfRooms,
@@ -105,9 +101,8 @@ func (ur *hotelRepo) GetAll(params *repo.GetAllHotelsParams) (*repo.GetAllHotels
 	query := `
 		SELECT
 			id,
-			owner_id,
+			user_id,
 			hotel_name,
-			hotel_rating,
 			hotel_location,
 			hotel_image_url,
 			number_of_rooms,
@@ -129,9 +124,8 @@ func (ur *hotelRepo) GetAll(params *repo.GetAllHotelsParams) (*repo.GetAllHotels
 
 		err := rows.Scan(
 			&h.ID,
-			&h.OwnerID,
+			&h.UserID,
 			&h.HotelName,
-			&h.HotelRating,
 			&h.HotelLocation,
 			&h.HotelImageUrl,
 			&h.NumberOfRooms,
@@ -155,21 +149,19 @@ func (ur *hotelRepo) GetAll(params *repo.GetAllHotelsParams) (*repo.GetAllHotels
 
 func (ur *hotelRepo) Update(hotel *repo.Hotel) (*repo.Hotel, error) {
 	query := `update hotels set 
-			owner_id=$1,
+			user_id=$1,
 			hotel_name=$2,
-			hotel_rating=$3,
-			hotel_location=$4,
-			hotel_image_url=$5,
-			number_of_rooms=$6
-		where id=$7
+			hotel_location=$3,
+			hotel_image_url=$4,
+			number_of_rooms=$5
+		where id=$6
 		returning created_at
 		`
 
 	err := ur.db.QueryRow(
 		query,
-		hotel.OwnerID,
+		hotel.UserID,
 		hotel.HotelName,
-		hotel.HotelRating,
 		hotel.HotelLocation,
 		hotel.HotelImageUrl,
 		hotel.NumberOfRooms,

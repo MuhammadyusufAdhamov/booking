@@ -746,227 +746,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/owner/{id}": {
-            "delete": {
-                "description": "Delete an owner",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "owner"
-                ],
-                "summary": "Delete an owner",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseOK"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/owners": {
-            "get": {
-                "description": "Get all owners",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "owner"
-                ],
-                "summary": "Get all owners",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "default": 10,
-                        "name": "limit",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "default": 1,
-                        "name": "page",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "name": "search",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.GetAllOwnersResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create an owner",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "owner"
-                ],
-                "summary": "Create an owner",
-                "parameters": [
-                    {
-                        "description": "Owner",
-                        "name": "owner",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.CreateOwnerRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/models.Owner"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/owners/{id}": {
-            "get": {
-                "description": "Get owner by id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "owner"
-                ],
-                "summary": "Get owner by id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Owner"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update an owner",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "owner"
-                ],
-                "summary": "Update an owner",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Owner",
-                        "name": "owner",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.CreateOwnerRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.Owner"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/room/{id}": {
             "delete": {
                 "description": "Delete a room",
@@ -1282,6 +1061,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create a user",
                 "consumes": [
                     "application/json"
@@ -1432,6 +1216,9 @@ const docTemplate = `{
                 "last_name": {
                     "type": "string"
                 },
+                "type": {
+                    "type": "string"
+                },
                 "username": {
                     "type": "string"
                 }
@@ -1443,19 +1230,22 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "from_date": {
+                    "type": "string"
+                },
+                "hotel_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
-                "number_of_users": {
-                    "type": "integer"
+                "price": {
+                    "type": "number"
                 },
                 "room_id": {
                     "type": "integer"
                 },
-                "stay": {
-                    "type": "string"
-                },
-                "stay_date": {
+                "to_date": {
                     "type": "string"
                 },
                 "user_id": {
@@ -1466,16 +1256,19 @@ const docTemplate = `{
         "models.CreateBookingRequest": {
             "type": "object",
             "properties": {
-                "number_of_users": {
+                "from_date": {
+                    "type": "string"
+                },
+                "hotel_id": {
                     "type": "integer"
+                },
+                "price": {
+                    "type": "number"
                 },
                 "room_id": {
                     "type": "integer"
                 },
-                "stay": {
-                    "type": "string"
-                },
-                "stay_date": {
+                "to_date": {
                     "type": "string"
                 },
                 "user_id": {
@@ -1489,9 +1282,8 @@ const docTemplate = `{
                 "hotel_image_url",
                 "hotel_location",
                 "hotel_name",
-                "hotel_rating",
                 "number_of_rooms",
-                "owner_id"
+                "user_id"
             ],
             "properties": {
                 "hotel_image_url": {
@@ -1503,52 +1295,11 @@ const docTemplate = `{
                 "hotel_name": {
                     "type": "string"
                 },
-                "hotel_rating": {
-                    "type": "string"
-                },
                 "number_of_rooms": {
                     "type": "integer"
                 },
-                "owner_id": {
+                "user_id": {
                     "type": "integer"
-                }
-            }
-        },
-        "models.CreateOwnerRequest": {
-            "type": "object",
-            "required": [
-                "email",
-                "first_name",
-                "last_name",
-                "password",
-                "username"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string",
-                    "maxLength": 30,
-                    "minLength": 2
-                },
-                "last_name": {
-                    "type": "string",
-                    "maxLength": 30,
-                    "minLength": 2
-                },
-                "password": {
-                    "type": "string",
-                    "maxLength": 16,
-                    "minLength": 6
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string",
-                    "maxLength": 30,
-                    "minLength": 2
                 }
             }
         },
@@ -1561,13 +1312,7 @@ const docTemplate = `{
                 "number_of_room": {
                     "type": "integer"
                 },
-                "price": {
-                    "type": "number"
-                },
                 "room_image_url": {
-                    "type": "string"
-                },
-                "sleeps": {
                     "type": "string"
                 },
                 "status": {
@@ -1607,6 +1352,9 @@ const docTemplate = `{
                     "minLength": 6
                 },
                 "phone_number": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 },
                 "username": {
@@ -1663,20 +1411,6 @@ const docTemplate = `{
                 }
             }
         },
-        "models.GetAllOwnersResponse": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "owners": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/models.Owner"
-                    }
-                }
-            }
-        },
         "models.GetAllRoomsResponse": {
             "type": "object",
             "properties": {
@@ -1720,16 +1454,13 @@ const docTemplate = `{
                 "hotel_name": {
                     "type": "string"
                 },
-                "hotel_rating": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
                 "number_of_rooms": {
                     "type": "integer"
                 },
-                "owner_id": {
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -1748,35 +1479,6 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 16,
                     "minLength": 6
-                }
-            }
-        },
-        "models.Owner": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "first_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "last_name": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "phone_number": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
                 }
             }
         },
@@ -1832,13 +1534,7 @@ const docTemplate = `{
                 "number_of_room": {
                     "type": "integer"
                 },
-                "price": {
-                    "type": "number"
-                },
                 "room_image_url": {
-                    "type": "string"
-                },
-                "sleeps": {
                     "type": "string"
                 },
                 "status": {
@@ -1882,6 +1578,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "phone_number": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 },
                 "username": {

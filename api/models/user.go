@@ -10,6 +10,7 @@ type User struct {
 	PhoneNumber *string   `json:"phone_number"`
 	Username    *string   `json:"username"`
 	Password    string    `json:"password"`
+	Type        string    `json:"type"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
@@ -20,6 +21,7 @@ type CreateUserRequest struct {
 	PhoneNumber *string `json:"phone_number"`
 	Username    *string `json:"username" binding:"required,min=2,max=30"`
 	Password    string  `json:"password" binding:"required,min=6,max=16"`
+	Type        string  `json:"type" binding:"required oneof=user partner"`
 }
 
 type GetAllUsersResponse struct {

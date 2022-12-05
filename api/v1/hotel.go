@@ -31,9 +31,8 @@ func (h *handlerV1) CreateHotel(c *gin.Context) {
 	}
 
 	resp, err := h.storage.Hotel().Create(&repo.Hotel{
-		OwnerID:       req.OwnerID,
+		UserID:        req.UserID,
 		HotelName:     req.HotelName,
-		HotelRating:   req.HotelRating,
 		HotelLocation: req.HotelLocation,
 		HotelImageUrl: req.HotelImageUrl,
 		NumberOfRooms: req.NumberOfRooms,
@@ -117,9 +116,8 @@ func getHotelsResponse(data *repo.GetAllHotelsResult) *models.GetAllHotelsRespon
 func parseHotelModel(hotel *repo.Hotel) models.Hotel {
 	return models.Hotel{
 		ID:            hotel.ID,
-		OwnerID:       hotel.OwnerID,
+		UserID:        hotel.UserID,
 		HotelName:     hotel.HotelName,
-		HotelRating:   hotel.HotelRating,
 		HotelLocation: hotel.HotelLocation,
 		HotelImageUrl: hotel.HotelImageUrl,
 		NumberOfRooms: hotel.NumberOfRooms,
@@ -157,9 +155,8 @@ func (h *handlerV1) UpdateHotel(c *gin.Context) {
 
 	resp, err := h.storage.Hotel().Update(&repo.Hotel{
 		ID:            int64(id),
-		OwnerID:       req.OwnerID,
+		UserID:        req.UserID,
 		HotelName:     req.HotelName,
-		HotelRating:   req.HotelRating,
 		HotelLocation: req.HotelLocation,
 		HotelImageUrl: req.HotelImageUrl,
 		NumberOfRooms: req.NumberOfRooms,
@@ -175,9 +172,8 @@ func (h *handlerV1) UpdateHotel(c *gin.Context) {
 
 	c.JSON(http.StatusOK, models.Hotel{
 		ID:            resp.ID,
-		OwnerID:       resp.OwnerID,
+		UserID:        resp.UserID,
 		HotelName:     resp.HotelName,
-		HotelRating:   resp.HotelRating,
 		HotelLocation: resp.HotelLocation,
 		HotelImageUrl: resp.HotelImageUrl,
 		NumberOfRooms: resp.NumberOfRooms,

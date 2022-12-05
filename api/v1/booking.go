@@ -31,11 +31,12 @@ func (h *handlerV1) CreateBooking(c *gin.Context) {
 	}
 
 	resp, err := h.storage.Booking().Create(&repo.Booking{
-		RoomId:        req.RoomId,
-		UserId:        req.UserId,
-		Stay:          req.Stay,
-		NumberOfUsers: req.NumberOfUsers,
-		StayDate:      req.StayDate,
+		RoomId:   req.RoomId,
+		UserId:   req.UserId,
+		HotelId:  req.HotelId,
+		FromDate: req.FromDate,
+		ToDate:   req.ToDate,
+		Price:    req.Price,
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
@@ -115,13 +116,14 @@ func getBookingsResponse(data *repo.GetAllBookingResult) *models.GetAllBookingsR
 
 func parseBookingModel(booking *repo.Booking) models.Booking {
 	return models.Booking{
-		ID:            booking.ID,
-		RoomId:        booking.RoomId,
-		UserId:        booking.UserId,
-		Stay:          booking.Stay,
-		NumberOfUsers: booking.NumberOfUsers,
-		StayDate:      booking.StayDate,
-		CreatedAt:     booking.CreatedAt,
+		ID:        booking.ID,
+		RoomId:    booking.RoomId,
+		UserId:    booking.UserId,
+		HotelId:   booking.HotelId,
+		FromDate:  booking.FromDate,
+		ToDate:    booking.ToDate,
+		Price:     booking.Price,
+		CreatedAt: booking.CreatedAt,
 	}
 }
 
@@ -154,12 +156,13 @@ func (h *handlerV1) UpdateBooking(c *gin.Context) {
 	}
 
 	resp, err := h.storage.Booking().Update(&repo.Booking{
-		ID:            int64(id),
-		RoomId:        req.RoomId,
-		UserId:        req.UserId,
-		Stay:          req.Stay,
-		NumberOfUsers: req.NumberOfUsers,
-		StayDate:      req.StayDate,
+		ID:       int64(id),
+		RoomId:   req.RoomId,
+		UserId:   req.UserId,
+		HotelId:  req.HotelId,
+		FromDate: req.FromDate,
+		ToDate:   req.ToDate,
+		Price:    req.Price,
 	})
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -171,12 +174,13 @@ func (h *handlerV1) UpdateBooking(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, models.Booking{
-		ID:            resp.ID,
-		RoomId:        resp.RoomId,
-		UserId:        resp.UserId,
-		Stay:          resp.Stay,
-		NumberOfUsers: resp.NumberOfUsers,
-		StayDate:      resp.StayDate,
+		ID:       resp.ID,
+		RoomId:   resp.RoomId,
+		UserId:   resp.UserId,
+		HotelId:  resp.HotelId,
+		FromDate: resp.FromDate,
+		ToDate:   resp.ToDate,
+		Price:    resp.Price,
 	})
 }
 

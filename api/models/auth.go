@@ -16,6 +16,7 @@ type AuthResponse struct {
 	Email       string    `json:"email"`
 	Username    string    `json:"username"`
 	CreatedAt   time.Time `json:"created_at"`
+	Type        string    `json:"type"`
 	AccessToken string    `json:"access_token"`
 }
 

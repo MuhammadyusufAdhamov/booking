@@ -23,12 +23,10 @@ func (ur *roomRepo) Create(room *repo.Room) (*repo.Room, error) {
 		INSERT INTO rooms(
 			type,
 			number_of_room,
-			sleeps,
 			room_image_url,
-			price,
 			status,
 		    hotel_id
-		) VALUES($1, $2, $3, $4, $5, $6, $7)
+		) VALUES($1, $2, $3, $4, $5)
 		RETURNING id, created_at
 	`
 
@@ -36,9 +34,7 @@ func (ur *roomRepo) Create(room *repo.Room) (*repo.Room, error) {
 		query,
 		room.Type,
 		room.NumberOfRoom,
-		room.Sleeps,
 		room.RoomImageUrl,
-		room.Price,
 		room.Status,
 		room.HotelId,
 	)
@@ -59,9 +55,7 @@ func (ur *roomRepo) Get(id int64) (*repo.Room, error) {
 			id,
 			type,
 			number_of_room,
-			sleeps,
 			room_image_url,
-			price,
 			status,
 			hotel_id,
 			created_at
@@ -74,9 +68,7 @@ func (ur *roomRepo) Get(id int64) (*repo.Room, error) {
 		&result.ID,
 		&result.Type,
 		&result.NumberOfRoom,
-		&result.Sleeps,
 		&result.RoomImageUrl,
-		&result.Price,
 		&result.Status,
 		&result.HotelId,
 		&result.CreatedAt,
@@ -111,9 +103,7 @@ func (ur *roomRepo) GetAll(params *repo.GetAllRoomsParams) (*repo.GetAllRoomsRes
 			id,
 			type,
 			number_of_room,
-			sleeps,
 			room_image_url,
-			price,
 			status,
 			hotel_id,
 			created_at
@@ -136,9 +126,7 @@ func (ur *roomRepo) GetAll(params *repo.GetAllRoomsParams) (*repo.GetAllRoomsRes
 			&u.ID,
 			&u.Type,
 			&u.NumberOfRoom,
-			&u.Sleeps,
 			&u.RoomImageUrl,
-			&u.Price,
 			&u.Status,
 			&u.HotelId,
 			&u.CreatedAt,
@@ -163,12 +151,10 @@ func (ur *roomRepo) Update(room *repo.Room) (*repo.Room, error) {
 	query := `update rooms set 
 			type=$1,
 			number_of_room=$2,
-			sleeps=$3,
-			room_image_url=$4,
-			price=$5,
-			status=$6,
-			hotel_id=$7
-		where id=$8
+			room_image_url=$3,
+			status=$4,
+			hotel_id=$5
+		where id=$6
 		returning created_at
 		`
 
@@ -176,9 +162,7 @@ func (ur *roomRepo) Update(room *repo.Room) (*repo.Room, error) {
 		query,
 		room.Type,
 		room.NumberOfRoom,
-		room.Sleeps,
 		room.RoomImageUrl,
-		room.Price,
 		room.Status,
 		room.HotelId,
 		room.ID,

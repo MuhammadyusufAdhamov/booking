@@ -22,7 +22,7 @@ func main() {
 		cfg.Postgres.Password,
 		cfg.Postgres.Database,
 	)
-
+	fmt.Println("-------------------", psqlUrl)
 	psqlConn, err := sqlx.Connect("postgres", psqlUrl)
 	if err != nil {
 		log.Fatalf("failed to connect database: %v", err)

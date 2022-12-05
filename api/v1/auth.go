@@ -65,7 +65,7 @@ func (h *handlerV1) Register(c *gin.Context) {
 		return
 	}
 
-	err = h.inMemory.Set("user_"+user.Email, string(userData), 10*time.Second)
+	err = h.inMemory.Set("user_"+user.Email, string(userData), 10*time.Minute)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
@@ -89,7 +89,7 @@ func (h *handlerV1) sendVerificationCode(key, email string) error {
 		return err
 	}
 
-	err = h.inMemory.Set(key+email, code, time.Second)
+	err = h.inMemory.Set(key+email, code, time.Minute)
 	if err != nil {
 		return err
 	}
@@ -162,6 +162,7 @@ func (h *handlerV1) Verify(c *gin.Context) {
 	token, _, err := utils.CreateToken(h.cfg, &utils.TokenParams{
 		UserID:   result.ID,
 		Email:    result.Email,
+		UserType: result.Type,
 		Duration: time.Hour * 24,
 	})
 	if err != nil {
@@ -174,6 +175,7 @@ func (h *handlerV1) Verify(c *gin.Context) {
 		FirstName:   result.FirstName,
 		LastName:    result.LastName,
 		Email:       result.Email,
+		Type:        result.Type,
 		CreatedAt:   result.CreatedAt,
 		AccessToken: token,
 	})
@@ -219,6 +221,7 @@ func (h *handlerV1) Login(c *gin.Context) {
 	token, _, err := utils.CreateToken(h.cfg, &utils.TokenParams{
 		UserID:   result.ID,
 		Email:    result.Email,
+		UserType: result.Type,
 		Duration: time.Hour * 24,
 	})
 	if err != nil {
@@ -231,6 +234,7 @@ func (h *handlerV1) Login(c *gin.Context) {
 		FirstName:   result.FirstName,
 		LastName:    result.LastName,
 		Email:       result.Email,
+		Type:        result.Type,
 		CreatedAt:   result.CreatedAt,
 		AccessToken: token,
 	})
@@ -331,6 +335,7 @@ func (h *handlerV1) VerifyForgotPassword(c *gin.Context) {
 		FirstName:   result.FirstName,
 		LastName:    result.LastName,
 		Email:       result.Email,
+		Type:        result.Type,
 		CreatedAt:   result.CreatedAt,
 		AccessToken: token,
 	})

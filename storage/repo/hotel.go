@@ -4,9 +4,8 @@ import "time"
 
 type Hotel struct {
 	ID            int64
-	OwnerID       int64
+	UserID        int64
 	HotelName     string
-	HotelRating   string
 	HotelLocation string
 	HotelImageUrl *string
 	NumberOfRooms int32

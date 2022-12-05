@@ -4,9 +4,8 @@ import "time"
 
 type Hotel struct {
 	ID            int64     `json:"id"`
-	OwnerID       int64     `json:"owner_id"`
+	UserID        int64     `json:"user_id"`
 	HotelName     string    `json:"hotel_name"`
-	HotelRating   string    `json:"hotel_rating"`
 	HotelLocation string    `json:"hotel_location"`
 	HotelImageUrl *string   `json:"hotel_image_url"`
 	NumberOfRooms int32     `json:"number_of_rooms"`
@@ -14,9 +13,8 @@ type Hotel struct {
 }
 
 type CreateHotelRequest struct {
-	OwnerID       int64   `json:"owner_id" binding:"required"`
+	UserID        int64   `json:"user_id" binding:"required"`
 	HotelName     string  `json:"hotel_name" binding:"required"`
-	HotelRating   string  `json:"hotel_rating" binding:"required"`
 	HotelLocation string  `json:"hotel_location" binding:"required"`
 	HotelImageUrl *string `json:"hotel_image_url" binding:"required"`
 	NumberOfRooms int32   `json:"number_of_rooms" binding:"required"`

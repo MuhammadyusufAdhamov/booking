@@ -8,12 +8,12 @@ import (
 )
 
 func createHotel(t *testing.T) *repo.Hotel {
-	owner := createOwner(t)
+	user := createUser(t)
 
 	hotel, err := strg.Hotel().Create(&repo.Hotel{
 		HotelName:     faker.NAME,
 		HotelLocation: faker.SENTENCE,
-		OwnerID:       owner.ID,
+		UserID:        user.ID,
 	})
 	require.NoError(t, err)
 	require.NotEmpty(t, hotel)

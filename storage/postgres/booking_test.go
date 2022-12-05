@@ -10,11 +10,13 @@ import (
 func createBooking(t *testing.T) *repo.Booking {
 	room := createRoom(t)
 	user := createUser(t)
+	hotel := createHotel(t)
 
 	booking, err := strg.Booking().Create(&repo.Booking{
-		RoomId: int(room.ID),
-		UserId: int(user.ID),
-		Stay:   faker.SENTENCE,
+		RoomId:   int(room.ID),
+		UserId:   int(user.ID),
+		HotelId:  int(hotel.ID),
+		FromDate: faker.DATE,
 	})
 	require.NoError(t, err)
 	require.NotEmpty(t, booking)
@@ -48,12 +50,12 @@ func TestGetAllBookings(t *testing.T) {
 func TestUpdateBooking(t *testing.T) {
 	c := createBooking(t)
 
-	c.Stay = faker.SENTENCE
+	c.FromDate = faker.DATE
 
 	booking, err := strg.Booking().Update(c)
 	require.NoError(t, err)
 	require.NotEmpty(t, booking)
-	require.Equal(t, booking.Stay, c.Stay)
+	require.Equal(t, booking.FromDate, c.FromDate)
 }
 
 func TestDeleteBooking(t *testing.T) {
@@ -62,4 +64,3 @@ func TestDeleteBooking(t *testing.T) {
 	err := strg.Booking().Delete(c.ID)
 	require.NoError(t, err)
 }
-

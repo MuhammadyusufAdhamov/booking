@@ -6,11 +6,11 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - 5430:5432
+      - "5434:5432"
 
   redis:
     image: redis:latest
@@ -26,7 +26,7 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
 
       - HTTP_PORT=${HTTP_PORT}
 

@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+// @Security ApiKeyAuth
 // @Router /users [post]
 // @Summary Create a user
 // @Description Create a user
@@ -36,10 +37,11 @@ func (h *handlerV1) CreateUser(c *gin.Context) {
 		PhoneNumber: req.PhoneNumber,
 		Email:       req.Email,
 		Username:    req.Username,
+		Type:        req.Type,
 		Password:    req.Password,
 	})
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResponse(err))
+		c.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
@@ -121,6 +123,8 @@ func parseUserModel(user *repo.User) models.User {
 		LastName:    user.LastName,
 		PhoneNumber: user.PhoneNumber,
 		Email:       user.Email,
+		Password:    user.Password,
+		Type:        user.Type,
 		CreatedAt:   user.CreatedAt,
 	}
 }
@@ -161,6 +165,7 @@ func (h *handlerV1) UpdateUser(c *gin.Context) {
 		PhoneNumber: req.PhoneNumber,
 		Username:    req.Username,
 		Password:    req.Password,
+		Type:        req.Type,
 	})
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -179,6 +184,7 @@ func (h *handlerV1) UpdateUser(c *gin.Context) {
 		PhoneNumber: resp.PhoneNumber,
 		Username:    resp.Username,
 		Password:    resp.Password,
+		Type:        resp.Type,
 	})
 }
 
@@ -193,6 +199,17 @@ func (h *handlerV1) UpdateUser(c *gin.Context) {
 // @Failure 400 {object} models.ErrorResponse
 // @Failure 500 {object} models.ErrorResponse
 func (h *handlerV1) DeleteUser(c *gin.Context) {
+	payload, err := h.GetAuthPayload(c)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	if payload.UserType != repo.UserTypeSuperadmin {
+		c.JSON(http.StatusForbidden, errorResponse(ErrForbidden))
+		return
+	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))

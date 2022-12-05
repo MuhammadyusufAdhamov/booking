@@ -2,15 +2,22 @@ package repo
 
 import "time"
 
+const (
+	UserTypeUser       = "user"
+	UserTypeSuperadmin = "superadmin"
+	UserTypePartner    = "partner"
+)
+
 type User struct {
-	ID              int64
-	FirstName       string
-	LastName        string
-	Email           string
-	PhoneNumber     *string
-	Username        *string
-	Password        string
-	CreatedAt       time.Time
+	ID          int64
+	FirstName   string
+	LastName    string
+	Email       string
+	PhoneNumber *string
+	Username    *string
+	Password    string
+	Type        string
+	CreatedAt   time.Time
 }
 
 type GetAllUsersParams struct {
